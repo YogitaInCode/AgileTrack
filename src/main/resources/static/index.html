@@ -1,0 +1,250 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>AgileTrack · Workspace</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<aside class="sidebar">
+    <div class="brand">
+        <span class="brand-mark small">A</span>
+        <span>AgileTrack<small>WORKSPACE</small></span>
+    </div>
+
+    <div class="nav-label">WORKSPACE</div>
+
+    <button class="nav active" data-page="dashboard"><i>▦</i> Overview</button>
+    <button class="nav" data-page="projects"><i>▣</i> Projects</button>
+    <button class="nav" data-page="tasks"><i>☷</i> Backlog & Sprints</button>
+    <button class="nav" data-page="bugs"><i>⚑</i> Bug Tracker</button>
+    <button class="nav" data-page="tests"><i>✓</i> Quality Assurance</button>
+    <button id="nav-team" class="nav" data-page="team"><i>♙</i> Team</button>
+
+    <div class="side-bottom">
+        <div class="side-note">
+            SHIP BETTER SOFTWARE<br>
+            <span>One team. One workspace.</span>
+        </div>
+        <button id="logout" class="logout">↪ Sign out</button>
+    </div>
+</aside>
+
+<main class="main">
+
+    <header>
+        <div>
+            <div class="eyebrow">AGILE DELIVERY / OVERVIEW</div>
+            <h1 id="page-title">Project overview</h1>
+        </div>
+
+        <div class="profile">
+            <div class="avatar" id="avatar">A</div>
+            <div>
+                <b id="user-name">Loading...</b>
+                <small id="user-role">Member</small>
+            </div>
+        </div>
+    </header>
+
+    <!-- DASHBOARD -->
+    <section id="dashboard" class="page active">
+
+        <div class="hero">
+            <div>
+                <span class="hero-tag">YOUR PROJECT HEALTH</span>
+                <h2>Turn plans into progress.</h2>
+                <p>Track delivery, resolve defects and keep quality visible.</p>
+                <button class="hero-btn" onclick="showPage('tasks')">
+                    View sprint board <b>→</b>
+                </button>
+            </div>
+
+            <div class="hero-art">
+                <div class="orbit orbit-one"></div>
+                <div class="orbit orbit-two"></div>
+                <div class="hero-symbol">A</div>
+                <span class="floating f1">SPRINT</span>
+                <span class="floating f2">QUALITY</span>
+                <span class="floating f3">DELIVERY</span>
+            </div>
+        </div>
+
+        <div class="metric-grid" id="metric-cards"></div>
+
+        <div class="dashboard-grid">
+            <div class="panel">
+                <div class="panel-title">
+                    <div>
+                        <h3>Delivery progress</h3>
+                        <p>Task completion across the workspace</p>
+                    </div>
+                    <span class="pill">LIVE SUMMARY</span>
+                </div>
+                <div id="progress-area"></div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-title">
+                    <div>
+                        <h3>Quality health</h3>
+                        <p>Test execution and defect signals</p>
+                    </div>
+                    <span class="pill">QUALITY</span>
+                </div>
+                <div id="quality-area"></div>
+            </div>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="panel">
+                <div class="panel-title">
+                    <div>
+                        <h3>Recent defects</h3>
+                        <p>Issues that need attention</p>
+                    </div>
+                    <button class="link-btn" onclick="showPage('bugs')">All bugs →</button>
+                </div>
+                <div id="recent-bugs"></div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-title">
+                    <div>
+                        <h3>Activity feed</h3>
+                        <p>Latest workspace updates</p>
+                    </div>
+                </div>
+                <div id="activity-feed"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects" class="page">
+        <div class="page-heading">
+            <div>
+                <h2>Projects</h2>
+                <p>Define scope, ownership and delivery dates.</p>
+            </div>
+            <button id="btn-new-project" class="primary" onclick="openForm('project')">
+                ＋ New project
+            </button>
+        </div>
+        <div class="panel" id="projects-table"></div>
+    </section>
+
+    <!-- TASKS AND SPRINTS -->
+    <section id="tasks" class="page">
+        <div class="page-heading">
+            <div>
+                <h2>Backlog & sprints</h2>
+                <p>Plan work, estimate effort and move tasks through delivery.</p>
+            </div>
+            <div>
+                <button id="btn-new-sprint" class="secondary" onclick="openForm('sprint')">
+                    ＋ New sprint
+                </button>
+                <button id="btn-new-task" class="primary" onclick="openForm('task')">
+                    ＋ Add task
+                </button>
+            </div>
+        </div>
+
+        <div class="panel">
+            <div class="panel-title">
+                <div>
+                    <h3>Sprint plan</h3>
+                    <p>Active and upcoming iterations</p>
+                </div>
+            </div>
+            <div id="sprints-table"></div>
+        </div>
+
+        <div class="panel">
+            <div class="panel-title">
+                <div>
+                    <h3>Task board</h3>
+                    <p>Update status as work progresses.</p>
+                </div>
+            </div>
+            <div id="tasks-board" class="kanban"></div>
+        </div>
+    </section>
+
+    <!-- BUG TRACKER -->
+    <section id="bugs" class="page">
+        <div class="page-heading">
+            <div>
+                <h2>Bug tracker</h2>
+                <p>Capture, prioritise and resolve defects.</p>
+            </div>
+            <button id="btn-new-bug" class="primary" onclick="openForm('bug')">
+                ＋ Report bug
+            </button>
+        </div>
+
+        <div class="panel">
+            <div class="filters">
+                <input id="bug-search" placeholder="⌕ Search defects..." oninput="renderBugs()">
+                <select id="bug-filter" onchange="renderBugs()">
+                    <option value="">All statuses</option>
+                    <option>Open</option>
+                    <option>In Progress</option>
+                    <option>Resolved</option>
+                    <option>Closed</option>
+                </select>
+            </div>
+            <div id="bugs-table"></div>
+        </div>
+    </section>
+
+    <!-- QUALITY ASSURANCE -->
+    <section id="tests" class="page">
+        <div class="page-heading">
+            <div>
+                <h2>Quality assurance</h2>
+                <p>Manage test cases and record execution results.</p>
+            </div>
+            <button id="btn-new-test" class="primary" onclick="openForm('test')">
+                ＋ Add test case
+            </button>
+        </div>
+
+        <div class="quality-summary" id="quality-summary"></div>
+        <div class="panel" id="tests-table"></div>
+    </section>
+
+    <!-- TEAM -->
+    <section id="team" class="page">
+        <div class="page-heading">
+            <div>
+                <h2>Team directory</h2>
+                <p>Workspace members and their responsibilities.</p>
+            </div>
+        </div>
+        <div id="team-grid" class="team-grid"></div>
+    </section>
+
+</main>
+
+<!-- MODAL -->
+<div id="modal" class="modal">
+    <div class="modal-card">
+        <div class="panel-title">
+            <h3 id="modal-title">Add item</h3>
+            <button class="icon-btn" onclick="closeForm()">×</button>
+        </div>
+        <form id="item-form"></form>
+    </div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script src="/app.js"></script>
+
+</body>
+</html>
