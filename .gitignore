@@ -4,4 +4,6 @@ error-log.txt
 .idea/
 .vscode/
 *.iml
-.env
+.env 
+data/*.mv.db
+data/*.trace.db
